@@ -92,8 +92,8 @@
   REGISTER_THREAD = 7
 
   API_PROVIDERS = {
-    "provider1": {"base_url": "http://api.povider1.fun", "api_key": "sk-...", "models": ["-4o-mini", "deepseek-v3"], "proxy": None},
-    "provider2": {"base_url": "http://api.povider2.fun", "api_key": "sk-...", "models": ["-4", "-3.5-turbo", "-4o", "-4o-mini"], "proxy": "http://your_proxy_address:port"}
+    "provider1": {"base_url": "http://api.povider1.fun", "api_key": "sk-...", "models": ["gpt-4o-mini", "deepseek-v3"], "proxy": None},
+    "provider2": {"base_url": "http://api.povider2.fun", "api_key": "sk-...", "models": ["gpt-4", "gpt-3.5-turbo", "gpt-4o", "gpt-4o-mini"], "proxy": "http://your_proxy_address:port"}
   }
 
   API_PROVIDERS_IMAGE = {
