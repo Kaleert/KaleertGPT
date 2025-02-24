@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div id="snow-container"></div>
+    <header class="header">
+        <div class="container header-container">
+            <div class="site-title-container">
+                <h1 class="site-title">{{ BOT_NAME }}</h1>
+            </div>
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="{{ BOT_NAME }} Logo" class="logo">
+            </div>
+            <nav class="header-nav">
+                <div class="theme-switcher">
+                    <button class="theme-button" id="theme-toggle">☀️</button>
+                </div>
+                <a href="/" class="nav-link support-button">Главная</a>
+                <a href="/support" class="nav-link support-button">Поддержка</a>
+             </nav>
+        </div>
+    </header>
+    <section class="login-section">
+      <div class="container login-container">
+        <h2>Авторизация</h2>
+        {% if error_message %}
+          <p class="error">{{ error_message }}</p>
+        {% endif %}
+        <form method="post" action="/login">
+            {% if error_message %}
+                <p class="error">{{ error_message }}</p>
+            {% endif %}
+        
+            {% if code_requested %}
+                <div class="form-group">
+                    <label for="code">Введите код из Telegram:</label>
+                    <input type="text" id="code" name="code" value="{{ request.form.code }}" required>
+                </div>
+                <button type="submit" class="login-button">Войти</button>
+            {% else %}
+                <div class="form-group">
+                    <label for="user_id">Юзернейм или ID:</label>
+                    <input type="text" id="user_id" name="user_id" value="{{ request.form.user_id }}" required>
+                </div>
+                <button type="submit" class="login-button">Отправить код</button>
+            {% endif %}
+        </form>        
+     </div>
+    </section>
+   <footer class="footer">
+      <div class="container footer-container">
+         <div class="footer-logo-col">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="{{ BOT_NAME }} Logo" class="footer-logo">
+                 <span class="footer-text">{{ BOT_NAME }}, 2024</span>
+            </div>
+         </div>
+          <div class="footer-payment-col">
+              <span class="footer-text">QIWI</span>
+              <span class="footer-text">Money</span>
+              <span class="footer-text">МИР</span>
+          </div>
+           <div class="footer-links-col">
+                <h4 class="footer-col-title">Темы</h4>
+                <ul class="footer-list">
+                  <li><a href="#" class="footer-link">Dark Theme</a></li>
+                  <li><a href="#" class="footer-link">Light Theme</a></li>
+                 </ul>
+           </div>
+        <div class="footer-links-col">
+            <h4 class="footer-col-title">Информация</h4>
+            <ul class="footer-list">
+                <li><a href="#" class="footer-link">FAQ</a></li>
+               <li><a href="#" class="footer-link">Контакты</a></li>
+            </ul>
+          </div>
+          <div class="footer-links-col">
+             <h4 class="footer-col-title">Полезное</h4>
+                <ul class="footer-list">
+                  <li><a href="#" class="footer-link">Telegram</a></li>
+                  <li><a href="#" class="footer-link">Поддержка</a></li>
+               </ul>
+         </div>
+      </div>
+    </footer>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

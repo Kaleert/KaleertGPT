@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>{{ title }}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link id="highlight-theme" rel="stylesheet" href="{{ url_for('static', filename='highlight/styles/onedark.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <style>
+        pre code {
+            padding: 0;
+            margin: 0;
+        }
+        p {
+            margin-bottom: 1em;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        strong, b {
+            font-weight: bold;
+        }
+        em, i {
+            font-style: italic;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+      </style>
+</head>
+<body>
+    <div id="snow-container"></div>
+ <header class="header">
+        <div class="container header-container">
+            <div class="site-title-container">
+                <h1 class="site-title">{{ BOT_NAME }}</h1>
+            </div>
+            <div class="logo-container">
+                <a href="/"</a>
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="{{ BOT_NAME }} Logo" class="logo">
+            </div>
+            <nav class="header-nav">
+                <div class="theme-switcher">
+                    <button class="theme-button" id="theme-toggle">☀️</button>
+                </div>
+                {% if session.get('username') %}
+                    <span class="nav-link">Привет, {{ session['username'] }}!</span>
+                    <a href="/profile" class="nav-link">Профиль</a>
+                    <a href="/logout" class="nav-link">Выйти</a>
+                {% else %}
+                    <a href="/login" class="nav-link login-button-head">Войти</a>
+                {% endif %}
+                <a href="/support" class="nav-link support-button">Поддержка</a>
+            </nav>
+        </div>
+    </header>
+      <section class="response-section">
+        <div class="container">
+            <h1>{{ title }}</h1>
+            <div id="response-container">
+                {{ response_text | safe }}
+            </div>
+           <div class="share-section">
+            <h2>Поделиться</h2>
+               <div class="share-buttons">
+                    <a href="https://vk.com/share.php?url={{ request.url }}" target="_blank">
+                        <img src="{{ url_for('static', filename='icons/vk.png') }}" alt="Share on VK" title="Поделиться в ВКонтакте">
+                    </a>
+                    <a href="https://t.me/share/url?url={{ request.url }}&text={{ title }}" target="_blank">
+                        <img src="{{ url_for('static', filename='icons/telegram.png') }}" alt="Share on Telegram" title="Поделиться в Telegram">
+                    </a>
+                    <a href="https://api.whatsapp.com/send?text={{ request.url }}" target="_blank">
+                        <img src="{{ url_for('static', filename='icons/whatsapp.png') }}" alt="Share on WhatsApp" title="Поделиться в WhatsApp">
+                    </a>
+                </div>
+            </div>
+        </div>
+   </section>
+   <footer class="footer">
+    <div class="container footer-container">
+       <div class="footer-logo-col">
+          <div class="logo-container">
+              <img src="{{ url_for('static', filename='logo.png') }}" alt="{{ BOT_NAME }} Logo" class="footer-logo">
+               <span class="footer-text">{{ BOT_NAME }}, 2024</span>
+          </div>
+       </div>
+        <div class="footer-payment-col">
+            <span class="footer-text">QIWI</span>
+            <span class="footer-text">Money</span>
+            <span class="footer-text">МИР</span>
+        </div>
+         <div class="footer-links-col">
+              <h4 class="footer-col-title">Темы</h4>
+              <ul class="footer-list">
+                <li><a href="#" class="footer-link">Dark Theme</a></li>
+                <li><a href="#" class="footer-link">Light Theme</a></li>
+               </ul>
+         </div>
+      <div class="footer-links-col">
+          <h4 class="footer-col-title">Информация</h4>
+          <ul class="footer-list">
+              <li><a href="#" class="footer-link">FAQ</a></li>
+             <li><a href="#" class="footer-link">Контакты</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-col">
+           <h4 class="footer-col-title">Полезное</h4>
+              <ul class="footer-list">
+                <li><a href="#" class="footer-link">Telegram</a></li>
+                <li><a href="#" class="footer-link">Поддержка</a></li>
+             </ul>
+       </div>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+  <script src="{{ url_for('static', filename='highlight/highlight.js') }}"></script>
+    <script>
+        {{ languages_js | safe }}
+          document.addEventListener('DOMContentLoaded', () => {
+            const highlightThemeLink = document.getElementById('highlight-theme');
+            const themeToggle = document.getElementById('theme-toggle');
+            const root = document.documentElement;
+            let isDarkTheme = false; // Состояние темы
+             function setTheme(isDark) {
+                if (isDark) {
+                    root.style.setProperty('--background-color', '#282c34');
+                    root.style.setProperty('--text-color', '#abb2bf');
+                    root.style.setProperty('--code-background', '#282c34');
+                    root.style.setProperty('--copy-button-bg', '#555');
+                    root.style.setProperty('--copy-button-color', '#ccc');
+                    root.style.setProperty('--collapse-button-bg', '#444');
+                    highlightThemeLink.href = "{{ url_for('static', filename='highlight/styles/one-light.css') }}";
+                    themeToggle.textContent = '🌙';
+                    // Добавляем класс для темных кнопок
+                    document.querySelectorAll('.copy-button, .collapse-button').forEach(button => {
+                        button.classList.add('dark-theme-button');
+                    });
+                } else {
+                    root.style.setProperty('--background-color', '#f8f8f8');
+                    root.style.setProperty('--text-color', '#333');
+                    root.style.setProperty('--code-background', '#f8f8f8');
+                    root.style.setProperty('--copy-button-bg', '#333');
+                    root.style.setProperty('--copy-button-color', '#eee');
+                    root.style.setProperty('--collapse-button-bg', '#ddd');
+                    highlightThemeLink.href = "{{ url_for('static', filename='highlight/styles/onedark.css') }}";
+                    themeToggle.textContent = '☀️';
+                    // Удаляем класс для темных кнопок
+                    document.querySelectorAll('.copy-button, .collapse-button').forEach(button => {
+                        button.classList.remove('dark-theme-button');
+                    });
+                }
+                isDarkTheme = isDark;
+                 hljs .highlightAll();
+            }
+            function addCopyButtonsAndCollapse(codeElement) {
+                    let pre = codeElement.closest('pre');
+                    if(!pre) return;
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'button-container';
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-button';
+                    copyButton.textContent = 'Копировать';
+                    const code = pre.querySelector('code')?.textContent;
+                    if(!code) return;
+                    copyButton.addEventListener('click', () => {
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText(code)
+                                .then(() => {
+                                    copyButton.textContent = 'Скопировано!';
+                                    setTimeout(() => copyButton.textContent = 'Копировать', 1500);
+                                })
+                                .catch(err => {
+                                   showError("Ошибка копирования: " + err, pre);
+                                });
+                        } else {
+                            const tempInput = document.createElement('textarea');
+                            tempInput.value = code;
+                            document.body.appendChild(tempInput);
+                            tempInput.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(tempInput);
+                            copyButton.textContent = 'Скопировано!';
+                            setTimeout(() => copyButton.textContent = 'Копировать', 1500);
+                        }
+                    });
+                    const collapseButton = document.createElement('button');
+                    collapseButton.className = 'collapse-button';
+                    collapseButton.textContent = 'Развернуть';
+                    const content = $(pre).addClass('collapsible').wrapInner('<div class="content collapsed"></div>').find('.content');
+
+                    collapseButton.addEventListener('click', function() {
+                        content.toggleClass('collapsed');
+                        this.textContent = content.hasClass('collapsed') ? 'Развернуть' : 'Свернуть';
+                    });
+
+                    // Инициализация текста кнопки при загрузке
+                    if (content.hasClass('collapsed')) {
+                         collapseButton.textContent = 'Развернуть';
+                     } else {
+                        collapseButton.textContent = 'Свернуть';
+                     }
+
+
+                    buttonContainer.appendChild(copyButton);
+                    buttonContainer.appendChild(collapseButton);
+                     pre.appendChild(buttonContainer);
+            }
+             hljs.addPlugin({
+                 'after:highlightElement': function(result){
+                    addCopyButtonsAndCollapse(result.el);
+                 }
+             });
+             hljs.highlightAll();
+
+
+            setTheme(false);
+
+
+            themeToggle.addEventListener('click', () => {
+             setTheme(!isDarkTheme);
+            });
+
+
+             function showError(message, pre) {
+                 const errorMessage = document.createElement('p');
+                errorMessage.className = 'error-message';
+                errorMessage.textContent = message;
+                pre.parentNode.insertBefore(errorMessage, pre);
+            }
+        });
+    </script>
+<style>
+/*  Стили для кнопок в темной теме */
+.dark-theme-button {
+    background-color: #333; /*  Более светлый фон */
+    color: #eee;         /*  Более темный текст */
+    border: 1px solid #555;   /*  Рамка */
+}
+
+.dark-theme-button:hover {
+    background-color: #555; /*  Фон при наведении */
+    color: #fff;
+}
+</style>
+</body>
+</html>

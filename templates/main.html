@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ BOT_NAME }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link id="highlight-theme" rel="stylesheet" href="{{ url_for('static', filename='highlight/styles/onedark.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="snow-container"></div>
+    <header class="header">
+        <div class="container header-container">
+            <div class="site-title-container">
+                <h1 class="site-title">{{ BOT_NAME }}</h1>
+            </div>
+            <div class="logo-container">
+                <a href="/"</a></a>
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="{{ BOT_NAME }} Logo" class="logo">
+            </div>
+            <nav class="header-nav">
+                <div class="theme-switcher">
+                    <button class="theme-button" id="theme-toggle">☀️</button>
+                </div>
+                {% if authorizated == True %}
+                    <a href="/profile" class="nav-link">@{{ user_data.username }}</a>
+                    <a href="/logout" class="nav-link">Выйти</a>
+                {% else %}
+                    <a href="/login" class="nav-link login-button-head">Войти</a>
+                {% endif %}
+                <a href="/support" class="nav-link support-button">Поддержка</a>
+            </nav>
+        </div>
+    </header>
+    <section class="hosting-section">
+        <div class="container hosting-container">
+            <div class="hosting-header">
+                <h2 class="hosting-title">Универсальный чат-бот</h2>
+                <p class="hosting-subtitle">Интеллектуальный помощник для ваших задач!</p>
+                <a href="https://t.me/{{ bot_username }}" class="hosting-button">Запустить в Telegram</a>
+            </div>
+             <div class="stats-grid">
+                 <div class="stats-card">
+                    <span class="stats-title">Моделей</span>
+                    <span class="stats-value" id="model-count">Загрузка...</span>
+                </div>
+                 <div class="stats-card">
+                    <span class="stats-title">Пользователей</span>
+                    <span class="stats-value" id="user-count">Загрузка...</span>
+                </div>
+                <div class="stats-card">
+                    <span class="stats-title">Сообщений</span>
+                   <span class="stats-value" id="message-count">Загрузка...</span>
+                </div>
+            </div>
+            <h2 class="features-title">Почему именно мы?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <img src="{{ url_for('static', filename='instant.svg') }}" alt="Instant" class="feature-icon">
+                    <h4 class="feature-title">Мгновенные ответы</h4>
+                     <p class="feature-text">Получайте быстрые ответы на любые вопросы.</p>
+                </div>
+                <div class="feature-card">
+                   <img src="{{ url_for('static', filename='generation.svg') }}" alt="Generation" class="feature-icon">
+                    <h4 class="feature-title">Генерация текста</h4>
+                    <p class="feature-text">Создавайте тексты, стихи, и переводы на разных языках.</p>
+                </div>
+                <div class="feature-card">
+                   <img src="{{ url_for('static', filename='support.svg') }}" alt="Support" class="feature-icon">
+                    <h4 class="feature-title">Круглосуточная поддержка</h4>
+                     <p class="feature-text">Мы всегда готовы помочь вам в любое время.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="use-cases">
+       <div class="container">
+            <h2>Примеры использования</h2>
+            <div class="use-cases-grid">
+               <div class="use-case">
+                    <p>Генерация идей для статей, текстов, постов в соцсетях.</p>
+                   <p class="author">Творчество</p>
+              <!--      <img src="{{ url_for('static', filename='creative.png') }}" alt="Creative Use Case"> -->
+                </div>
+                <div class="use-case">
+                    <p>Написание писем, отчетов, презентаций, помощь в коде.</p>
+                    <p class="author">Работа</p>
+           <!--          <img src="{{ url_for('static', filename='work.png') }}" alt="Work Use Case"> -->
+                </div>
+               <div class="use-case">
+                   <p>Поиск информации, подготовка рефератов, ответы на вопросы.</p>
+                   <p class="author">Обучение</p>
+                   <img src="{{ url_for('static', filename='education.png') }}" alt="Education Use Case">
+              </div>
+              <div class="use-case">
+                <p>Игры, придумывание историй, текстовые приключения.</p>
+                <p class="author">Развлечения</p>
+          <!--      <img src="{{ url_for('static', filename='fun.png') }}" alt="Fun Use Case">  -->
+           </div>
+       </div>
+   </div>
+</section>
+    <section class="testimonials">
+    <div class="container testimonials-container">
+        <h2>Отзывы пользователей</h2>
+        <div class="testimonial-grid">
+           <div class="testimonial">
+              <p class="testimonial-text">Отличный бот, очень помогает в работе!</p>
+              <p class="testimonial-author">- Иван</p>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">Бот просто супер, я в восторге!</p>
+                <p class="testimonial-author">- Елена</p>
+            </div>
+             <div class="testimonial">
+                <p class="testimonial-text">Пользуюсь каждый день, незаменимый помощник.</p>
+                <p class="testimonial-author">- Анна</p>
+            </div>
+       </div>
+    </div>
+ </section>
+  <section class="faq">
+      <div class="container faq-container">
+          <h2>Часто задаваемые вопросы</h2>
+          <div class="faq-item">
+              <div class="faq-question">Что такое {{ BOT_NAME }}?</div>
+              <div class="faq-answer">{{ BOT_NAME }} - это универсальный чат-бот, который может помочь вам в различных задачах.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">Как начать пользоваться ботом?</div>
+            <div class="faq-answer">Нажмите на кнопку "Запустить в Telegram" и следуйте инструкциям.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Какие возможности есть у бота?</div>
+            <div class="faq-answer">Бот может генерировать тексты, давать ответы на вопросы, помогать в написании кода и многое другое.</div>
+        </div>
+       <div class="faq-item">
+            <div class="faq-question">Есть ли ограничения у бесплатной модели?</div>
+           <div class="faq-answer">Да, бесплатная модель имеет ограничения. Подробности вы можете увидеть в разделе с моделями.</div>
+       </div>
+      </div>
+  </section>
+<footer class="footer">
+   <div class="container footer-container">
+      <div class="footer-logo-col">
+          <div class="logo-container">
+             <img src="{{ url_for('static', filename='logo.png') }}" alt="{{ BOT_NAME }} Logo" class="footer-logo">
+             <span class="footer-text">{{ BOT_NAME }}, 2025</span>
+          </div>
+       </div>
+         <div class="footer-payment-col">
+           <span class="footer-text">QIWI</span>
+           <span class="footer-text">Money</span>
+           <span class="footer-text">МИР</span>
+       </div>
+       <div class="footer-links-col">
+           <h4 class="footer-col-title">Темы</h4>
+           <ul class="footer-list">
+               <li><a href="#" class="footer-link">Dark Theme</a></li>
+               <li><a href="#" class="footer-link">Light Theme</a></li>
+               </ul>
+       </div>
+        <div class="footer-links-col">
+           <h4 class="footer-col-title">Информация</h4>
+           <ul class="footer-list">
+               <li><a href="#" class="footer-link">FAQ</a></li>
+               <li><a href="#" class="footer-link">Контакты</a></li>
+               </ul>
+       </div>
+       <div class="footer-links-col">
+           <h4 class="footer-col-title">Полезное</h4>
+           <ul class="footer-list">
+              <li><a href="#" class="footer-link">Telegram</a></li>
+              <li><a href="#" class="footer-link">Поддержка</a></li>
+           </ul>
+       </div>
+   </div>
+</footer>
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const faqItems = document.querySelectorAll('.faq-item');
+
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+
+        question.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
